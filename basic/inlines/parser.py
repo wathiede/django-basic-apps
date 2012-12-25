@@ -10,8 +10,10 @@ from django.utils.safestring import mark_safe
 def inlines(value, return_list=False):
     try:
         from BeautifulSoup import BeautifulStoneSoup
+        from BeautifulSoup import BeautifulSoup
     except ImportError:
         from beautifulsoup import BeautifulStoneSoup
+        from beautifulsoup import BeautifulSoup
 
     content = BeautifulStoneSoup(value, selfClosingTags=['inline','img','br','input','meta','link','hr'])
     inline_list = []
@@ -25,7 +27,8 @@ def inlines(value, return_list=False):
         for inline in content.findAll('inline'):
             rendered_inline = render_inline(inline)
             if rendered_inline:
-                inline.replaceWith(render_to_string(rendered_inline['template'], rendered_inline['context']))
+                inline.replaceWith(BeautifulSoup((render_to_string(rendered_inline['template'],
+                                                                   rendered_inline['context']))))
             else:
                 inline.replaceWith('')
         return mark_safe(content)
