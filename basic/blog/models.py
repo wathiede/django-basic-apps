@@ -39,7 +39,9 @@ class Post(models.Model):
     title = models.CharField(_('title'), max_length=200)
     slug = models.SlugField(_('slug'), unique_for_date='publish')
     author = models.ForeignKey(User, blank=True, null=True)
-    body = models.TextField(_('body'), )
+    body = models.TextField(_('body'),
+                            help_text="""Body can be formatted with the textile markup language. See <a href="http://en.wikipedia.org/wiki/Textile_(markup_language)">Wikipedia</a> or <a href="http://www.movabletype.org/documentation/author/textile-2-syntax.html">MoveableType</a> for more information.""")
+
     tease = models.TextField(_('tease'), blank=True, help_text=_('Concise text suggested. Does not appear in RSS feed.'))
     status = models.IntegerField(_('status'), choices=STATUS_CHOICES, default=2)
     allow_comments = models.BooleanField(_('allow comments'), default=True)
